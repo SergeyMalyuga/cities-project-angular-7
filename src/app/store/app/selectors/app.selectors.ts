@@ -1,0 +1,25 @@
+import {createFeatureSelector, createSelector} from '@ngrx/store';
+import {AppState} from '../../../core/models/app.state';
+import {OfferPreview} from '../../../core/models/offers';
+
+const selectOfferState = createFeatureSelector<AppState['offer']>('offer');
+const selectCurrentCityState = createFeatureSelector<AppState['currentCity']>('currentCity');
+
+export const selectOffersByCity = createSelector(
+  selectOfferState,
+  selectCurrentCityState,
+  (offerState, cityState) => Object.values(offerState.entities).filter((offer): offer is OfferPreview => {
+    if (offer === undefined) return false;
+    return offer.city.name === cityState.name
+  })
+);
+
+export const selectIsOffersLoading = createSelector(
+  selectOfferState,
+  state => state.isLoading,
+);
+
+export const selectCurrentCity = createSelector(
+  selectCurrentCityState,
+  state => state,
+);
