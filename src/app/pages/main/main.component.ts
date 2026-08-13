@@ -5,6 +5,8 @@ import {selectCurrentCity, selectOffersByCity} from '../../store/app/selectors/a
 import {OfferCardComponent} from '../../shared/components/offer-card/offer-card.component';
 import {CITY_LOCATIONS} from '../../core/constants/const';
 import {NgClass} from '@angular/common';
+import {City} from '../../core/models/city';
+import {changeCity} from '../../store/city/actions/city.actions';
 
 @Component({
   selector: 'app-main',
@@ -23,4 +25,8 @@ export class MainComponent {
 
   public offers = this.store.selectSignal(selectOffersByCity);
   public currentCity = this.store.selectSignal(selectCurrentCity);
+
+  public changeCity(city: City): void {
+    this.store.dispatch(changeCity({city}));
+  }
 }
