@@ -4,10 +4,10 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {Credentials} from '../../../core/models/credentials';
 
 export const checkAuth = createAction('[App Component] Check Auth]');
-export const chackAuthSuccess = createAction('[App Component] Chack Auth Success',
+export const checkAuthSuccess = createAction('[App Component] Chack Auth Success',
   props<{ user: User }>());
 export const checkAuthFailure = createAction('[App Component] Check Auth Failure',
-  props<{ error: HttpErrorResponse }>());
+  props<{ error: HttpErrorResponse | string }>());
 
 export const login = createAction('[Login Component] Login]',
   props<{ credentials: Credentials }>());
