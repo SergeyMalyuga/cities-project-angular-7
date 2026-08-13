@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 import {HeaderComponent} from '../../shared/components/header/header.component';
 import {Store} from '@ngrx/store';
 import {selectCurrentCity, selectOffersByCity} from '../../store/app/selectors/app.selectors';
@@ -7,6 +7,7 @@ import {CITY_LOCATIONS} from '../../core/constants/const';
 import {NgClass} from '@angular/common';
 import {City} from '../../core/models/city';
 import {changeCity} from '../../store/city/actions/city.actions';
+import {OfferPreview} from '../../core/models/offers';
 
 @Component({
   selector: 'app-main',
@@ -25,8 +26,13 @@ export class MainComponent {
 
   public offers = this.store.selectSignal(selectOffersByCity);
   public currentCity = this.store.selectSignal(selectCurrentCity);
+  public activeCard = signal<OfferPreview | null>(null);
 
   public changeCity(city: City): void {
     this.store.dispatch(changeCity({city}));
+  }
+
+  public changeActiveCard(offer: OfferPreview | null): void {
+    this.activeCard.set(offer);
   }
 }

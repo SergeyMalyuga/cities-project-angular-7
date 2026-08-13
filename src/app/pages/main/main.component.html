@@ -44,7 +44,7 @@
           </form>
           <div class="cities__places-list places__list tabs__content">
             @for (offer of offers(); track offer.id) {
-              <app-offer-card [offer]="offer"/>
+              <app-offer-card [offer]="offer" (hovered)="changeActiveCard($event)"/>
             }
           </div>
         </section>
