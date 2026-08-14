@@ -27,9 +27,9 @@
         <section class="cities__places places">
           <h2 class="visually-hidden">Places</h2>
           <b class="places__found">{{ offers().length }} places to stay in {{ currentCity().name }}</b>
-          <app-places-sorting-form [currentSortType]="currentSortType()"/>
+          <app-places-sorting-form [currentSortType]="currentSortType()" (clicked)="changeSortType($event)"/>
           <div class="cities__places-list places__list tabs__content">
-            @for (offer of offers(); track offer.id) {
+            @for (offer of offers() | sortOfferBy: currentSortType(); track offer.id) {
               <app-offer-card [offer]="offer" (hovered)="changeActiveCard($event)"/>
             }
           </div>
