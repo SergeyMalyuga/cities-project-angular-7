@@ -9,12 +9,13 @@ import {appReducer} from './store/app/app.reducer';
 import {OfferEffects} from './store/offer/effects/offer.effects';
 import {UserEffects} from './store/user/effects/user.effects';
 import {AuthInterceptor} from './interceptors/auth.interceptor';
+import {FavoriteOfferEffects} from './store/favorite-offer/effects/favorite-offer.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({eventCoalescing: true}),
     provideRouter(routes),
     provideHttpClient(withInterceptorsFromDi()),
-    provideEffects(OfferEffects, UserEffects),
+    provideEffects(OfferEffects, UserEffects, FavoriteOfferEffects),
     provideStore(appReducer),
     {
       provide: HTTP_INTERCEPTORS,
