@@ -23,4 +23,10 @@ export class UserEffects {
       }
       return of(UserActions.checkAuthFailure({error: 'Unauthorized'}));
     })));
+
+  public login$ = createEffect(() =>
+    this.actions$.pipe(ofType(UserActions.login), switchMap(({credentials}) =>
+      this.userService.login(credentials)
+        .pipe(map(user => UserActions.loginSuccess({user})),
+          catchError((error: HttpErrorResponse) => of(UserActions.loginFailure({error})))))));
 }
