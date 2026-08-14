@@ -12,6 +12,8 @@
   }">
     @for (sortType of sortTypes; track sortType) {
       <li
+        appAccessibilityClick
+        (clicked)="onClicked(sortType)"
         [ngClass]="{
         'places__option': true,
         'places__option--active': currentSortType === sortType
