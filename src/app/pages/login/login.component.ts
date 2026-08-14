@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {Router, RouterLink} from '@angular/router';
-import {AppRoute, AuthorizationStatus} from '../../core/constants/const';
+import {AppRoute, AuthorizationStatus, CITY_LOCATIONS} from '../../core/constants/const';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Credentials} from '../../core/models/credentials';
 import {Store} from '@ngrx/store';
@@ -11,6 +11,7 @@ import {first} from 'rxjs';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {loadOffers} from '../../store/offer/actions/offer.actions';
 import {loadFavoriteOffers} from '../../store/favorite-offer/actions/favorite-offer.actions';
+import {changeCity} from '../../store/city/actions/city.actions';
 
 @Component({
   selector: 'app-login',
@@ -28,6 +29,8 @@ export class LoginComponent implements OnInit {
   private router = inject(Router);
 
   protected readonly AppRoute = AppRoute;
+
+  public randomCity = this.getRandomCity();
 
   public loginForm: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -60,5 +63,15 @@ export class LoginComponent implements OnInit {
       const credentials: Credentials = {email, password};
       this.store.dispatch(login({credentials}));
     }
+  }
+
+  public changeCity() {
+    this.store.dispatch(changeCity({city: this.randomCity}));
+    this.router.navigate([AppRoute.MAIN]);
+  }
+
+  private getRandomCity() {
+    const index = Math.floor(Math.random() * CITY_LOCATIONS.length);
+    return CITY_LOCATIONS[index];
   }
 }
