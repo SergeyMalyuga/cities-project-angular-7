@@ -5,6 +5,7 @@ import * as UserActions from '../actions/user.actions';
 import {AuthService} from '../../../services/auth.service';
 import {catchError, map, of, switchMap, tap} from 'rxjs';
 import {HttpErrorResponse} from '@angular/common/http';
+import {loadFavoriteOffers} from '../../favorite-offer/actions/favorite-offer.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -18,11 +19,14 @@ export class UserEffects {
     this.actions$.pipe(ofType(UserActions.checkAuth), switchMap(() => {
       const token = this.authService.getToken();
       if (token) {
-        this.userService.checkAuth().pipe(map(user => UserActions.checkAuthSuccess({user})),
+        return this.userService.checkAuth().pipe(map(user => UserActions.checkAuthSuccess({user})),
           catchError((error: HttpErrorResponse) => of(UserActions.checkAuthFailure(error))))
       }
       return of(UserActions.checkAuthFailure({error: 'Unauthorized'}));
     })));
+
+  public authSuccessLoadFavoriteOffers$ = createEffect(() =>
+    this.actions$.pipe(ofType(UserActions.checkAuthSuccess), map(() => loadFavoriteOffers())));
 
   public login$ = createEffect(() =>
     this.actions$.pipe(ofType(UserActions.login), switchMap(({credentials}) =>
