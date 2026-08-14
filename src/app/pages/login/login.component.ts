@@ -10,6 +10,7 @@ import {selectAuthStatus} from '../../store/user/selectors/user.selector';
 import {first} from 'rxjs';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {loadOffers} from '../../store/offer/actions/offer.actions';
+import {loadFavoriteOffers} from '../../store/favorite-offer/actions/favorite-offer.actions';
 
 @Component({
   selector: 'app-login',
@@ -48,6 +49,7 @@ export class LoginComponent implements OnInit {
       .subscribe(() => {
         this.loginForm.reset();
         this.store.dispatch(loadOffers());
+        this.store.dispatch(loadFavoriteOffers());
         this.router.navigate([AppRoute.MAIN]);
       })
   }
