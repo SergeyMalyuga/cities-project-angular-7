@@ -6,3 +6,4 @@ const selectFavoriteOfferState = createFeatureSelector<AppState['favoriteOffer']
 const favoriteOfferSelectors = favoriteOfferAdapter.getSelectors(selectFavoriteOfferState);
 
 export const selectFavoriteOffers = favoriteOfferSelectors.selectAll;
+export const selectFavoriteOffersTotal = favoriteOfferSelectors.selectTotal;
