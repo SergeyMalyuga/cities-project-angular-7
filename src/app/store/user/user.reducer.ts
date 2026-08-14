@@ -1,7 +1,15 @@
 import {UserState} from '../../core/models/user.state';
 import {AuthorizationStatus, DEFAULT_USER} from '../../core/constants/const';
 import {createReducer, on} from '@ngrx/store';
-import {checkAuth, checkAuthFailure, checkAuthSuccess, login, loginSuccess} from './actions/user.actions';
+import {
+  checkAuth,
+  checkAuthFailure,
+  checkAuthSuccess,
+  login,
+  loginSuccess,
+  logout, logoutFailure,
+  logoutSuccess
+} from './actions/user.actions';
 import {loadOffersFailure} from '../offer/actions/offer.actions';
 
 const initialState: UserState = {
@@ -30,5 +38,15 @@ export const userReducer = createReducer(
   })),
   on(loadOffersFailure, (state, {error}) => ({
     ...state, isLoading: false, error, authorizationStatus: AuthorizationStatus.UN_AUTH
+  })),
+
+  on(logout, state => ({
+    ...state, isLoading: true,
+  })),
+  on(logoutSuccess, state => ({
+    ...state, user: DEFAULT_USER, authorizationStatus: AuthorizationStatus.UN_AUTH, isLoading: false, error: null
+  })),
+  on(logoutFailure, (state, {error}) => ({
+    ...state, error, isLoading: false
   }))
 );
