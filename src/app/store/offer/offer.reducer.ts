@@ -3,6 +3,7 @@ import {OfferPreview} from '../../core/models/offers';
 import {OfferState} from '../../core/models/offer-state';
 import {createReducer, on} from '@ngrx/store';
 import {loadOffers, loadOffersFailure, loadOffersSuccess} from './actions/offer.actions';
+import {toggleFavoriteOfferSuccess} from '../favorite-offer/actions/favorite-offer.actions';
 
 export const offerAdapter = createEntityAdapter<OfferPreview>();
 const initialState: OfferState = offerAdapter.getInitialState({
@@ -20,5 +21,8 @@ export const offerReducer = createReducer(
   ),
   on(loadOffersFailure, (state, {error}) => ({
     ...state, isLoading: false, error
-  }))
-);
+  })),
+
+  on(toggleFavoriteOfferSuccess, (state, {offer}) =>
+    offerAdapter.updateOne({id: offer.id, changes: {isFavorite: offer.isFavorite}}, state))
+)
