@@ -1,9 +1,9 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Offer, OfferPreview} from '../core/models/offers';
-import {API_PATHS, APIRoute, BASE_URL} from '../core/constants/const';
-import {getDefaultHttpPipes} from '../core/utils/rxjs-operators';
+import {Offer, OfferPreview} from '../models/offers';
+import {API_PATHS, APIRoute, BASE_URL} from '../constants/const';
+import {getDefaultHttpPipes} from '../utils/rxjs-operators';
 
 @Injectable({
   providedIn: 'root'

@@ -3,7 +3,7 @@ import {OfferPreview} from '../../../core/models/offers';
 import {getRatingWidth} from '../../../core/utils/rating-width';
 import {NgClass, TitleCasePipe} from '@angular/common';
 import {HoverTrackerDirective} from '../../directives/hover-tracker.directive';
-import {OfferService} from '../../../services/offer.service';
+import {OfferService} from '../../../core/services/offer.service';
 import {first} from 'rxjs';
 import {AppRoute, FavoriteClass} from '../../../core/constants/const';
 import {Store} from '@ngrx/store';

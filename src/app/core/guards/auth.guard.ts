@@ -2,9 +2,9 @@ import {DestroyRef, inject, Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
 import {first, map, Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
-import {AppState} from '../core/models/app.state';
-import {selectAuthStatus} from '../store/user/selectors/user.selector';
-import {AppRoute, AuthorizationStatus} from '../core/constants/const';
+import {AppState} from '../models/app.state';
+import {selectAuthStatus} from '../../store/user/selectors/user.selector';
+import {AppRoute, AuthorizationStatus} from '../constants/const';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Injectable({
