@@ -4,7 +4,13 @@
       <div class="header__wrapper">
         <div class="header__left">
           <a class="header__logo-link" [routerLink]="[AppRoute.MAIN]">
-            <img class="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41">
+            <img
+              class="header__logo"
+              src="img/logo.svg"
+              alt="6 cities logo"
+              width="81"
+              height="41"
+            />
           </a>
         </div>
       </div>
@@ -15,34 +21,57 @@
     <div class="page__login-container container">
       <section class="login">
         <h1 class="login__title">Sign in</h1>
-        <form (ngSubmit)="onSubmit()" [formGroup]="loginForm" class="login__form form" action="#" method="post">
+        <form
+          (ngSubmit)="onSubmit()"
+          [formGroup]="loginForm"
+          class="login__form form"
+          action="#"
+          method="post"
+        >
           <div class="login__input-wrapper form__input-wrapper">
             <label for="email" class="visually-hidden">E-mail</label>
-            <input formControlName="email" id="email" class="login__input form__input" type="email" name="email"
-                   placeholder="Email"
-                   required="">
+            <input
+              formControlName="email"
+              id="email"
+              class="login__input form__input"
+              type="email"
+              name="email"
+              placeholder="Email"
+              required=""
+            />
             @if (emailControl?.errors && emailControl?.touched) {
-              @if (emailControl?.errors?.['required']) {
+              @if (emailControl?.errors?.["required"]) {
                 <div class="error">Email обязателен к заполнению</div>
-              } @else if (emailControl?.errors?.['email']) {
+              } @else if (emailControl?.errors?.["email"]) {
                 <div class="error">Не верный формат email</div>
               }
             }
           </div>
           <div class="login__input-wrapper form__input-wrapper">
             <label for="password" class="visually-hidden">Password</label>
-            <input formControlName="password" id="password" class="login__input form__input" type="password"
-                   name="password" placeholder="Password"
-                   required="">
+            <input
+              formControlName="password"
+              id="password"
+              class="login__input form__input"
+              type="password"
+              name="password"
+              placeholder="Password"
+              required=""
+            />
             @if (passwordControl?.errors && passwordControl?.touched) {
-              @if (passwordControl?.errors?.['required']) {
+              @if (passwordControl?.errors?.["required"]) {
                 <div class="error">Password обязателен для заполнения</div>
-              } @else if (passwordControl?.errors?.['pattern']) {
+              } @else if (passwordControl?.errors?.["pattern"]) {
                 <div class="error">Не верный формат password</div>
               }
             }
           </div>
-          <button class="login__submit form__submit button" type="submit" [disabled]="loginForm.invalid">Sign in
+          <button
+            class="login__submit form__submit button"
+            type="submit"
+            [disabled]="loginForm.invalid"
+          >
+            Sign in
           </button>
         </form>
       </section>
@@ -50,8 +79,10 @@
         <div class="locations__item">
           <a
             (click)="changeCity(); $event.preventDefault()"
-            class="locations__item-link" href="#">
-            <span>{{randomCity.name}}</span>
+            class="locations__item-link"
+            href="#"
+          >
+            <span>{{ randomCity.name }}</span>
           </a>
         </div>
       </section>

@@ -4,26 +4,29 @@ import {
   Component,
   inject,
   Input,
-  OnChanges, OnDestroy,
+  OnChanges,
+  OnDestroy,
   OnInit,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 import * as L from 'leaflet';
-import {Store} from '@ngrx/store';
-import {AppState} from '../../../core/models/app.state';
-import {selectCurrentCity} from '../../../store/app/selectors/app.selectors';
-import {OfferPreview} from '../../../core/models/offers';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../core/models/app.state';
+import { selectCurrentCity } from '../../../store/app/selectors/app.selectors';
+import { OfferPreview } from '../../../core/models/offers';
 
 @Component({
   selector: 'app-map',
   imports: [],
   templateUrl: './map.component.html',
   styleUrl: './map.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
-  @Input({required: true}) activeCard!: OfferPreview | null;
-  @Input({required: true}) offers!: OfferPreview[];
+export class MapComponent
+  implements OnInit, AfterViewInit, OnChanges, OnDestroy
+{
+  @Input({ required: true }) activeCard!: OfferPreview | null;
+  @Input({ required: true }) offers!: OfferPreview[];
 
   private map!: L.Map;
   private center!: L.LatLngExpression;
@@ -44,7 +47,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
   });
 
   public ngOnInit(): void {
-    this.center = [this.currentCity().location.latitude, this.currentCity().location.longitude];
+    this.center = [
+      this.currentCity().location.latitude,
+      this.currentCity().location.longitude,
+    ];
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -55,7 +61,14 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
       this.addMarkers();
     } else if (changes['offers']) {
       this.refreshMarkers();
-      this.map.setView([this.currentCity().location.latitude, this.currentCity().location.longitude], 13, {animate: true});
+      this.map.setView(
+        [
+          this.currentCity().location.latitude,
+          this.currentCity().location.longitude,
+        ],
+        13,
+        { animate: true },
+      );
     }
   }
 
@@ -90,17 +103,24 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy
   }
 
   private addMarkers() {
-    this.offers.forEach(offer => {
-      const marker = new L.Marker([offer.location.latitude, offer.location.longitude])
-        .bindTooltip(offer.title, {direction: 'top', offset: [0, -20]})
-        .setIcon(this.activeCard && offer.id === this.activeCard.id ? this.currentCustomIcon : this.defaultCustomIcon)
+    this.offers.forEach((offer) => {
+      const marker = new L.Marker([
+        offer.location.latitude,
+        offer.location.longitude,
+      ])
+        .bindTooltip(offer.title, { direction: 'top', offset: [0, -20] })
+        .setIcon(
+          this.activeCard && offer.id === this.activeCard.id
+            ? this.currentCustomIcon
+            : this.defaultCustomIcon,
+        )
         .addTo(this.map);
       this.markers.push(marker);
-    })
+    });
   }
 
   private refreshMarkers() {
-    this.markers.forEach(marker => this.map.removeLayer(marker));
+    this.markers.forEach((marker) => this.map.removeLayer(marker));
     this.addMarkers();
   }
 }

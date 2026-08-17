@@ -1,10 +1,22 @@
-import {catchError, MonoTypeOperatorFunction, retry, throwError, timeout, timer} from 'rxjs';
-import {RETRY_ATTEMPTS, TIMEOUT_MS} from '../constants/const';
-import {HttpErrorResponse} from '@angular/common/http';
-import {httpErrorHandler} from './http-error-handler';
+import {
+  catchError,
+  MonoTypeOperatorFunction,
+  retry,
+  throwError,
+  timeout,
+  timer,
+} from 'rxjs';
+import { RETRY_ATTEMPTS, TIMEOUT_MS } from '../constants/const';
+import { HttpErrorResponse } from '@angular/common/http';
+import { httpErrorHandler } from './http-error-handler';
 
-export function getDefaultHttpPipes<T>(): [MonoTypeOperatorFunction<T>, MonoTypeOperatorFunction<T>, MonoTypeOperatorFunction<T>] {
-  return [timeout(TIMEOUT_MS),
+export function getDefaultHttpPipes<T>(): [
+  MonoTypeOperatorFunction<T>,
+  MonoTypeOperatorFunction<T>,
+  MonoTypeOperatorFunction<T>,
+] {
+  return [
+    timeout(TIMEOUT_MS),
     retry({
       count: RETRY_ATTEMPTS,
       delay: (err: HttpErrorResponse) => {
@@ -14,6 +26,6 @@ export function getDefaultHttpPipes<T>(): [MonoTypeOperatorFunction<T>, MonoType
         return throwError(() => err);
       },
     }),
-    catchError(httpErrorHandler)
-  ]
+    catchError(httpErrorHandler),
+  ];
 }

@@ -1,21 +1,24 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, signal} from '@angular/core';
-import {SortType} from '../../core/constants/const';
-import {NgClass} from '@angular/common';
-import {ToggleDirective} from '../../shared/directives/toggle.directive';
-import {AccessibilityClickDirective} from '../../shared/directives/accessibility-click.directive';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  signal,
+} from '@angular/core';
+import { SortType } from '../../core/constants/const';
+import { NgClass } from '@angular/common';
+import { ToggleDirective } from '../../shared/directives/toggle.directive';
+import { AccessibilityClickDirective } from '../../shared/directives/accessibility-click.directive';
 
 @Component({
   selector: 'app-places-sorting-form',
-  imports: [
-    NgClass,
-    ToggleDirective,
-    AccessibilityClickDirective
-  ],
+  imports: [NgClass, ToggleDirective, AccessibilityClickDirective],
   templateUrl: './places-sorting-form.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlacesSortingFormComponent {
-  @Input({required: true}) currentSortType!: SortType;
+  @Input({ required: true }) currentSortType!: SortType;
   @Output() clicked = new EventEmitter<SortType>();
 
   public sortTypes = Object.values(SortType);

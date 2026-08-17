@@ -1,12 +1,22 @@
-<article appHoverTracker (hovered)="onHovered($event)" class="cities__card place-card">
+<article
+  appHoverTracker
+  (hovered)="onHovered($event)"
+  class="cities__card place-card"
+>
   @if (offer.isPremium) {
     <div class="place-card__mark">
       <span>Premium</span>
     </div>
   }
   <div class="cities__image-wrapper place-card__image-wrapper">
-    <a [routerLink]="['/',AppRoute.OFFER, offer.id]">
-      <img class="place-card__image" src="{{offer.previewImage}}" width="260" height="200" alt="Place image">
+    <a [routerLink]="['/', AppRoute.OFFER, offer.id]">
+      <img
+        class="place-card__image"
+        src="{{ offer.previewImage }}"
+        width="260"
+        height="200"
+        alt="Place image"
+      />
     </a>
   </div>
   <div class="place-card__info">
@@ -16,14 +26,16 @@
         <span class="place-card__price-text">&#47;&nbsp;night</span>
       </div>
       <button
-        [ngClass]=" {
-        'place-card__bookmark-button': true,
-        'button': true,
-        'place-card__bookmark-button--active': isAuth(authStatus()) && offer.isFavorite
+        [ngClass]="{
+          'place-card__bookmark-button': true,
+          button: true,
+          'place-card__bookmark-button--active':
+            isAuth(authStatus()) && offer.isFavorite,
         }"
         (click)="toggleFavoriteOffer()"
         [disabled]="isLoading()"
-        type="button">
+        type="button"
+      >
         <svg class="place-card__bookmark-icon" width="18" height="19">
           <use xlink:href="#icon-bookmark"></use>
         </svg>
@@ -37,7 +49,7 @@
       </div>
     </div>
     <h2 class="place-card__name">
-      <a [routerLink]="['/',AppRoute.OFFER, offer.id]">{{ offer.title }}</a>
+      <a [routerLink]="['/', AppRoute.OFFER, offer.id]">{{ offer.title }}</a>
     </h2>
     <p class="place-card__type">{{ offer.type | titlecase }}</p>
   </div>

@@ -1,5 +1,5 @@
 <div class="page page--gray page--main">
-  <app-header/>
+  <app-header />
   <main class="page__main page__main--index">
     <h1 class="visually-hidden">Cities</h1>
     <div class="tabs">
@@ -10,11 +10,13 @@
               <a
                 (click)="changeCity(city)"
                 [ngClass]="{
-              'locations__item-link': true,
-              'tabs__item': true,
-              'tabs__item tabs__item--active': currentCity().name === city.name
-              }"
-                href="#">
+                  'locations__item-link': true,
+                  tabs__item: true,
+                  'tabs__item tabs__item--active':
+                    currentCity().name === city.name,
+                }"
+                href="#"
+              >
                 <span>{{ city.name }}</span>
               </a>
             </li>
@@ -26,17 +28,28 @@
       <div class="cities__places-container container">
         <section class="cities__places places">
           <h2 class="visually-hidden">Places</h2>
-          <b class="places__found">{{ offers().length }} places to stay in {{ currentCity().name }}</b>
-          <app-places-sorting-form [currentSortType]="currentSortType()" (clicked)="changeSortType($event)"/>
+          <b class="places__found"
+            >{{ offers().length }} places to stay in {{ currentCity().name }}</b
+          >
+          <app-places-sorting-form
+            [currentSortType]="currentSortType()"
+            (clicked)="changeSortType($event)"
+          />
           <div class="cities__places-list places__list tabs__content">
-            @for (offer of offers() | sortOfferBy: currentSortType(); track offer.id) {
-              <app-offer-card [offer]="offer" (hovered)="changeActiveCard($event)"/>
+            @for (
+              offer of offers() | sortOfferBy: currentSortType();
+              track offer.id
+            ) {
+              <app-offer-card
+                [offer]="offer"
+                (hovered)="changeActiveCard($event)"
+              />
             }
           </div>
         </section>
         <div class="cities__right-section">
           <section class="cities__map map">
-            <app-map [activeCard]="activeCard()" [offers]="offers()"/>
+            <app-map [activeCard]="activeCard()" [offers]="offers()" />
           </section>
         </div>
       </div>

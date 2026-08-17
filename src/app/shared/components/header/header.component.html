@@ -3,7 +3,13 @@
     <div class="header__wrapper">
       <div class="header__left">
         <a class="header__logo-link" href="/">
-          <img class="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41">
+          <img
+            class="header__logo"
+            src="img/logo.svg"
+            alt="6 cities logo"
+            width="81"
+            height="41"
+          />
         </a>
       </div>
       <nav class="header__nav">
@@ -11,18 +17,23 @@
           @if (isAuth(authStatus())) {
             <li class="header__nav-item user">
               <a class="header__nav-link header__nav-link--profile" href="#">
-                <div class="header__avatar-wrapper user__avatar-wrapper">
-                </div>
-                <span class="header__user-name user__name">{{email()}}</span>
-                <span class="header__favorite-count">{{favoriteOffersTotal()}}</span>
+                <div class="header__avatar-wrapper user__avatar-wrapper"></div>
+                <span class="header__user-name user__name">{{ email() }}</span>
+                <span class="header__favorite-count">{{
+                  favoriteOffersTotal()
+                }}</span>
               </a>
             </li>
           }
           <li class="header__nav-item">
-            <a class="header__nav-link"
-               (click)="logout()"
-               [routerLink]="isAuth(authStatus()) ? null : ['/', AppRoute.LOGIN]">
-              <span class="header__signout">{{ isAuth(authStatus()) ? 'Sign out' : 'Login' }}</span>
+            <a
+              class="header__nav-link"
+              (click)="logout()"
+              [routerLink]="isAuth(authStatus()) ? null : ['/', AppRoute.LOGIN]"
+            >
+              <span class="header__signout">{{
+                isAuth(authStatus()) ? "Sign out" : "Login"
+              }}</span>
             </a>
           </li>
         </ul>
