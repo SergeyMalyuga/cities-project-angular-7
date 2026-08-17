@@ -7,9 +7,9 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { HeaderComponent } from '../../shared/components/header/header.component';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Offer } from '../../core/models/offers';
+import {HeaderComponent} from '../../shared/components/header/header.component';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Offer, OfferPreview} from '../../core/models/offers';
 import {
   catchError,
   combineLatest,
@@ -21,16 +21,18 @@ import {
   Subject,
   switchMap,
 } from 'rxjs';
-import { OfferDataService } from '../../core/services/offer-data.service';
-import { AppRoute } from '../../core/constants/const';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { LoaderComponent } from '../../shared/components/loader/loader.component';
-import { getRatingWidth } from '../../core/utils/rating-width';
-import { DatePipe, TitleCasePipe } from '@angular/common';
-import { Comment } from '../../core/models/comments';
-import { CommentService } from '../../core/services/comment.service';
-import { CommentFormComponent } from '../../components/comment-form/comment-form.component';
-import { SortByDatePipe } from '../../shared/pipes/sort-by-date.pipe';
+import {OfferDataService} from '../../core/services/offer-data.service';
+import {AppRoute, QUANTITY_FIRST_OFFERS} from '../../core/constants/const';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {LoaderComponent} from '../../shared/components/loader/loader.component';
+import {getRatingWidth} from '../../core/utils/rating-width';
+import {DatePipe, SlicePipe, TitleCasePipe} from '@angular/common';
+import {Comment} from '../../core/models/comments';
+import {CommentService} from '../../core/services/comment.service';
+import {CommentFormComponent} from '../../components/comment-form/comment-form.component';
+import {SortByDatePipe} from '../../shared/pipes/sort-by-date.pipe';
+import {MapComponent} from '../../shared/components/map/map.component';
+import {OfferCardComponent} from '../../shared/components/offer-card/offer-card.component';
 
 @Component({
   selector: 'app-offer',
@@ -41,6 +43,9 @@ import { SortByDatePipe } from '../../shared/pipes/sort-by-date.pipe';
     DatePipe,
     CommentFormComponent,
     SortByDatePipe,
+    MapComponent,
+    SlicePipe,
+    OfferCardComponent,
   ],
   templateUrl: './offer.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -53,12 +58,16 @@ export class OfferComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   protected readonly getRatingWidth = getRatingWidth;
+  protected readonly QUANTITY_FIRST_OFFERS = QUANTITY_FIRST_OFFERS;
 
   public offer = signal<Offer | null>(null);
   private refreshOffer$ = new Subject<void>();
 
   public comments = signal<Comment[]>([]);
   public refreshComment$ = new Subject<void>();
+
+  public nearbyOffers = signal<OfferPreview[]>([]);
+  public refreshNearbyOffer$ = new Subject<void>();
 
   public offerId = computed<string | null>(() => this.offer()?.id ?? null);
 
@@ -93,9 +102,16 @@ export class OfferComponent implements OnInit {
             ),
           );
 
+          const nearbyOffers$ = merge(
+            this.offerDataService.getNearbyOffers(id),
+            this.refreshNearbyOffer$.pipe(switchMap(() =>
+              this.offerDataService.getNearbyOffers(id).pipe(catchError(() => of([]))))));
+
+
           return combineLatest({
             offer: offer$,
             comments: comments$,
+            nearbyOffers: nearbyOffers$,
           });
         }),
         takeUntilDestroyed(this.destroyRef),
@@ -103,6 +119,7 @@ export class OfferComponent implements OnInit {
       .subscribe((result) => {
         this.offer.set(result.offer);
         this.comments.set(result.comments);
+        this.nearbyOffers.set(result.nearbyOffers);
       });
   }
 
