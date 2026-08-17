@@ -5,18 +5,20 @@ import {NgClass, TitleCasePipe} from '@angular/common';
 import {HoverTrackerDirective} from '../../directives/hover-tracker.directive';
 import {OfferService} from '../../../services/offer.service';
 import {first} from 'rxjs';
-import {FavoriteClass} from '../../../core/constants/const';
+import {AppRoute, FavoriteClass} from '../../../core/constants/const';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../../core/models/app.state';
 import {selectAuthStatus} from '../../../store/user/selectors/user.selector';
 import {isAuth} from '../../../core/utils/auth-status';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-offer-card',
   imports: [
     TitleCasePipe,
     HoverTrackerDirective,
-    NgClass
+    NgClass,
+    RouterLink
   ],
   templateUrl: './offer-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -48,4 +50,6 @@ export class OfferCardComponent {
       this.isLoading.set(false)
     );
   }
+
+  protected readonly AppRoute = AppRoute;
 }
