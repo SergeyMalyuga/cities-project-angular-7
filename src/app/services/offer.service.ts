@@ -4,9 +4,8 @@ import {AppState} from '../core/models/app.state';
 import {selectAuthStatus} from '../store/user/selectors/user.selector';
 import {toggleFavoriteOffer} from '../store/favorite-offer/actions/favorite-offer.actions';
 import {selectFavoriteOfferSuccessStatus} from '../store/favorite-offer/selectors/favorite-offers.selectors';
-import {EMPTY} from 'rxjs';
 import {Router} from '@angular/router';
-import {AppRoute} from '../core/constants/const';
+import {AppRoute, AuthorizationStatus} from '../core/constants/const';
 
 @Injectable({
   providedIn: 'root'
@@ -17,11 +16,11 @@ export class OfferService {
   private authStatus = this.store.selectSignal(selectAuthStatus);
 
   public toggleFavorite(offerId: string, isFavorite: boolean) {
-    if (this.authStatus()) {
+    if (this.authStatus() === AuthorizationStatus.AUTH) {
       this.store.dispatch(toggleFavoriteOffer({offerId, isFavorite: !isFavorite}));
-      return this.store.select(selectFavoriteOfferSuccessStatus);
+    } else {
+      this.router.navigate([AppRoute.LOGIN]);
     }
-    this.router.navigate([AppRoute.LOGIN]);
-    return EMPTY;
+    return this.store.select(selectFavoriteOfferSuccessStatus);
   }
 }
