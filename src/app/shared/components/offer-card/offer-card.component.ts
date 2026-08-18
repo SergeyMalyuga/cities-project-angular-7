@@ -7,18 +7,18 @@ import {
   Output,
   signal,
 } from '@angular/core';
-import { OfferPreview } from '../../../core/models/offers';
-import { getRatingWidth } from '../../../core/utils/rating-width';
-import { NgClass, TitleCasePipe } from '@angular/common';
-import { HoverTrackerDirective } from '../../directives/hover-tracker.directive';
-import { OfferService } from '../../../core/services/offer.service';
-import { first } from 'rxjs';
-import { AppRoute, FavoriteClass } from '../../../core/constants/const';
-import { Store } from '@ngrx/store';
-import { AppState } from '../../../core/models/app.state';
-import { selectAuthStatus } from '../../../store/user/selectors/user.selector';
-import { isAuth } from '../../../core/utils/auth-status';
-import { RouterLink } from '@angular/router';
+import {OfferPreview} from '../../../core/models/offers';
+import {getRatingWidth} from '../../../core/utils/rating-width';
+import {NgClass, TitleCasePipe} from '@angular/common';
+import {HoverTrackerDirective} from '../../directives/hover-tracker.directive';
+import {OfferService} from '../../../core/services/offer.service';
+import {first, tap} from 'rxjs';
+import {AppRoute, FavoriteClass} from '../../../core/constants/const';
+import {Store} from '@ngrx/store';
+import {AppState} from '../../../core/models/app.state';
+import {selectAuthStatus} from '../../../store/user/selectors/user.selector';
+import {isAuth} from '../../../core/utils/auth-status';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-offer-card',
@@ -27,8 +27,9 @@ import { RouterLink } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OfferCardComponent {
-  @Input({ required: true }) offer!: OfferPreview;
+  @Input({required: true}) offer!: OfferPreview;
   @Output() hovered = new EventEmitter<OfferPreview | null>();
+  @Output() toggled = new EventEmitter<void>();
 
   private offerService = inject(OfferService);
   private store = inject(Store<AppState>);
@@ -50,8 +51,12 @@ export class OfferCardComponent {
     this.isLoading.set(true);
     this.offerService
       .toggleFavorite(this.offer.id, this.offer.isFavorite)
-      .pipe(first((success) => success !== null))
-      .subscribe(() => this.isLoading.set(false));
+      .pipe(first((success) => success !== null),
+        tap(() => {
+          this.isLoading.set(false);
+          this.toggled.emit()
+        }))
+      .subscribe();
   }
 
   protected readonly AppRoute = AppRoute;
