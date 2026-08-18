@@ -38,6 +38,7 @@ import {AppState} from '../../core/models/app.state';
 import {selectAuthStatus} from '../../store/user/selectors/user.selector';
 import {isAuth} from '../../core/utils/auth-status';
 import {OfferService} from '../../core/services/offer.service';
+import {ScrollUpDirective} from '../../shared/directives/scroll-up.directive';
 
 @Component({
   selector: 'app-offer',
@@ -52,6 +53,7 @@ import {OfferService} from '../../core/services/offer.service';
     SlicePipe,
     OfferCardComponent,
     NgClass,
+    ScrollUpDirective,
   ],
   templateUrl: './offer.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -160,5 +162,9 @@ export class OfferComponent implements OnInit {
 
   public refreshComments(): void {
     this.refreshComment$.next();
+  }
+
+  public refreshNearbyOffers(): void {
+    this.refreshNearbyOffer$.next();
   }
 }

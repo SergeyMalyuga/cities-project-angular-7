@@ -1,15 +1,15 @@
 @if (offer() === null) {
-  <app-loader />
+  <app-loader/>
 }
 <div class="page">
-  <app-header />
+  <app-header/>
   <main class="page__main page__main--offer">
     <section class="offer">
       <div class="offer__gallery-container container">
         <div class="offer__gallery">
           @for (image of offer()?.images; track image) {
             <div class="offer__image-wrapper">
-              <img class="offer__image" src="{{ image }}" alt="Photo studio" />
+              <img class="offer__image" src="{{ image }}" alt="Photo studio"/>
             </div>
           }
         </div>
@@ -48,8 +48,8 @@
               <span class="visually-hidden">Rating</span>
             </div>
             <span class="offer__rating-value rating__value">{{
-              offer()?.rating
-            }}</span>
+                offer()?.rating
+              }}</span>
           </div>
           <ul class="offer__features">
             <li class="offer__feature offer__feature--entire">
@@ -142,7 +142,7 @@
                     <time
                       class="reviews__time"
                       [attr.datetime]="comment.date | date: 'YYYY-MM-dd'"
-                      >{{ comment.date | date: "MMMM YYYY" }}
+                    >{{ comment.date | date: "MMMM YYYY" }}
                     </time>
                   </div>
                 </li>
@@ -166,7 +166,7 @@
         <h2 class="near-places__title">Other places in the neighbourhood</h2>
         <div class="near-places__list places__list">
           @for (nearbyOffer of nearbyOffers() | slice: 0: QUANTITY_FIRST_OFFERS; track nearbyOffer.id) {
-            <app-offer-card [offer]="nearbyOffer"/>
+            <app-offer-card appScrollUp [enabled]="true" [offer]="nearbyOffer" (toggled)="refreshNearbyOffers()"/>
           }
         </div>
       </section>
