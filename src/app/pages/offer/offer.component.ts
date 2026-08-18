@@ -33,6 +33,10 @@ import {CommentFormComponent} from '../../components/comment-form/comment-form.c
 import {SortByDatePipe} from '../../shared/pipes/sort-by-date.pipe';
 import {MapComponent} from '../../shared/components/map/map.component';
 import {OfferCardComponent} from '../../shared/components/offer-card/offer-card.component';
+import {Store} from '@ngrx/store';
+import {AppState} from '../../core/models/app.state';
+import {selectAuthStatus} from '../../store/user/selectors/user.selector';
+import {isAuth} from '../../core/utils/auth-status';
 
 @Component({
   selector: 'app-offer',
@@ -56,6 +60,7 @@ export class OfferComponent implements OnInit {
   private offerDataService = inject(OfferDataService);
   private commentService = inject(CommentService);
   private destroyRef = inject(DestroyRef);
+  private store = inject(Store<AppState>);
 
   protected readonly getRatingWidth = getRatingWidth;
   protected readonly QUANTITY_FIRST_OFFERS = QUANTITY_FIRST_OFFERS;
@@ -70,6 +75,7 @@ export class OfferComponent implements OnInit {
   public refreshNearbyOffer$ = new Subject<void>();
 
   public offerId = computed<string | null>(() => this.offer()?.id ?? null);
+  public authStatus = this.store.selectSignal(selectAuthStatus);
 
   public ngOnInit(): void {
     this.activatedRoute.paramMap
@@ -126,4 +132,6 @@ export class OfferComponent implements OnInit {
   public refreshComments(): void {
     this.refreshComment$.next();
   }
+
+  protected readonly isAuth = isAuth;
 }

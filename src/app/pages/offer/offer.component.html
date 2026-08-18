@@ -140,10 +140,12 @@
                 </li>
               }
             </ul>
-            <app-comment-form
-              [offerId]="offerId()"
-              (commentAdded)="refreshComments()"
-            />
+            @if (isAuth(authStatus())) {
+              <app-comment-form
+                [offerId]="offerId()"
+                (commentAdded)="refreshComments()"
+              />
+            }
           </section>
         </div>
       </div>
