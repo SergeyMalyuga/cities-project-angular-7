@@ -4,21 +4,22 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { HeaderComponent } from '../../shared/components/header/header.component';
-import { Store } from '@ngrx/store';
+import {HeaderComponent} from '../../shared/components/header/header.component';
+import {Store} from '@ngrx/store';
 import {
-  selectCurrentCity,
+  selectCurrentCity, selectIsOffersLoading,
   selectOffersByCity,
 } from '../../store/app/selectors/app.selectors';
-import { OfferCardComponent } from '../../shared/components/offer-card/offer-card.component';
-import { CITY_LOCATIONS, SortType } from '../../core/constants/const';
-import { NgClass } from '@angular/common';
-import { City } from '../../core/models/city';
-import { changeCity } from '../../store/city/actions/city.actions';
-import { OfferPreview } from '../../core/models/offers';
-import { MapComponent } from '../../shared/components/map/map.component';
-import { PlacesSortingFormComponent } from '../../components/places-sorting-form/places-sorting-form.component';
-import { SortOfferByPipe } from './pipes/sort-offer-by.pipe';
+import {OfferCardComponent} from '../../shared/components/offer-card/offer-card.component';
+import {CITY_LOCATIONS, SortType} from '../../core/constants/const';
+import {NgClass} from '@angular/common';
+import {City} from '../../core/models/city';
+import {changeCity} from '../../store/city/actions/city.actions';
+import {OfferPreview} from '../../core/models/offers';
+import {MapComponent} from '../../shared/components/map/map.component';
+import {PlacesSortingFormComponent} from '../../components/places-sorting-form/places-sorting-form.component';
+import {SortOfferByPipe} from './pipes/sort-offer-by.pipe';
+import {LoaderComponent} from '../../shared/components/loader/loader.component';
 
 @Component({
   selector: 'app-main',
@@ -29,6 +30,7 @@ import { SortOfferByPipe } from './pipes/sort-offer-by.pipe';
     MapComponent,
     PlacesSortingFormComponent,
     SortOfferByPipe,
+    LoaderComponent,
   ],
   templateUrl: './main.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -42,9 +44,10 @@ export class MainComponent {
   public currentCity = this.store.selectSignal(selectCurrentCity);
   public activeCard = signal<OfferPreview | null>(null);
   public currentSortType = signal<SortType>(SortType.POPULAR);
+  public isLoading = this.store.selectSignal(selectIsOffersLoading);
 
   public changeCity(city: City): void {
-    this.store.dispatch(changeCity({ city }));
+    this.store.dispatch(changeCity({city}));
   }
 
   public changeActiveCard(offer: OfferPreview | null): void {
