@@ -1,19 +1,11 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  inject,
-  Input,
-  Output,
-  signal,
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output, signal,} from '@angular/core';
 import {OfferPreview} from '../../../core/models/offers';
 import {getRatingWidth} from '../../../core/utils/rating-width';
 import {NgClass, TitleCasePipe} from '@angular/common';
 import {HoverTrackerDirective} from '../../directives/hover-tracker.directive';
 import {OfferService} from '../../../core/services/offer.service';
 import {first, tap} from 'rxjs';
-import {AppRoute, FavoriteClass} from '../../../core/constants/const';
+import {AppRoute} from '../../../core/constants/const';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../../core/models/app.state';
 import {selectAuthStatus} from '../../../store/user/selectors/user.selector';
@@ -28,6 +20,7 @@ import {RouterLink} from '@angular/router';
 })
 export class OfferCardComponent {
   @Input({required: true}) offer!: OfferPreview;
+  @Input() isFavoritePage = false;
   @Output() hovered = new EventEmitter<OfferPreview | null>();
   @Output() toggled = new EventEmitter<void>();
 
